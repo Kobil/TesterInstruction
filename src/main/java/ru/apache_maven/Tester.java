@@ -22,6 +22,12 @@ public class Tester {
     private String baseUrl;
     private WebDriver driver;
 
+    public static void main() throws FileNotFoundException {
+        Tester test = new Tester();
+        test.Init();
+        test.Start();
+    }
+
     @Before
     public void Init() throws FileNotFoundException {
         driver = new FirefoxDriver();

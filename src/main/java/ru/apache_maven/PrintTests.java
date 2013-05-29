@@ -21,12 +21,13 @@ import static ru.apache_maven.BlocksList.*;
  * Email: ko6a93@bk.ru
  */
 public class PrintTests {
+    private static String dirName = "Intructions-HTML";
     private static int countOfTests = 0;
     private static PrintWriter pwMain;
 
     private static void printTest1() throws FileNotFoundException {
         String nameOfFile = "test_links.html";
-        PrintWriter pw = new PrintWriter(new File(nameOfFile));
+        PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
         pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+">"+nameOfFile+ "</a><TH>"+ "проверка правильности ссылок" + "</TR>");
 
@@ -57,7 +58,7 @@ public class PrintTests {
             String pass = generateStringRandom(10);
             String nameOfFile = "test_forms-" + String.valueOf(i+2) + ".html";
             WebElement bSubmit = null;
-            PrintWriter pw = new PrintWriter(new File(nameOfFile));
+            PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
             pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+">" + nameOfFile + "</a><TH>" + "заполнение форм" + "</TR>");
 
@@ -157,7 +158,7 @@ public class PrintTests {
 
     private static void printTest3() throws FileNotFoundException {
         String nameOfFile = "test_buttons.html";
-        PrintWriter pw = new PrintWriter(new File(nameOfFile));
+        PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
         pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+">"+nameOfFile+ "</a><TH>"+ "проверка работоспособности кнопок" + "</TR>");
 
@@ -196,14 +197,15 @@ public class PrintTests {
     }
 
     public static void printTests() throws FileNotFoundException {
-        pwMain = new PrintWriter(new File("style.css"));
+        (new File(dirName)).mkdirs();
+        pwMain = new PrintWriter(new File(dirName + "//" + "style.css"));
         pwMain.println("\n" +
                 " H2 {font-size: 30pt; color: green;}" +
                 " A {color: blue}" +
                 " TABLE {background : lightgrey}"
                 +"\n");
         pwMain.close();
-        pwMain = new PrintWriter(new File("index.html"));
+        pwMain = new PrintWriter(new File(dirName + "//" + "index.html"));
         pwMain.println("<HTML><HEAD>"
                 +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
                 +"<META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Инструкция</TITLE></HEAD>");
