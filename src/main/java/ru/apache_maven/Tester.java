@@ -27,7 +27,21 @@ public class Tester {
         driver = new FirefoxDriver();
         Scanner sc = new Scanner(new File("input.txt"));
         baseUrl = sc.nextLine();
-       // baseUrl = "http://www.ya.ru" ;//"https://passport.yandex.ru/passport?mode=simplereg&retpath=https%3A%2F%2Fmail.yandex.ru%2F%3Forigin%3Dhome_ru_nohint&origin=home_ru_nohint";
+        sc.close();
+    }
+
+    @Test
+    public void Start() throws FileNotFoundException {
+        driver.get(baseUrl);
+        List<WebElement> webElements = driver.findElements(By.xpath("/html/body"));
+
+        findAllLabels(webElements.get(0));
+
+        blocks.add(new Block());
+        findAllElements(webElements.get(0), 0);
+
+        printTests();
+
     }
 
     public void findAllLabels(WebElement element){
@@ -57,7 +71,7 @@ public class Tester {
                 element.getCssValue("display").equals("none"))
             return;
         if (elemName.equals("a")){
-           blocks.get(idOfParent).links.add(element);
+            blocks.get(idOfParent).links.add(element);
 
         }
         else
@@ -101,20 +115,6 @@ public class Tester {
         List<WebElement> webElems = element.findElements(By.xpath("*"));
         for(WebElement x : webElems)
             findAllElements(x, idOfParent);
-    }
-
-    @Test
-    public void Start() throws FileNotFoundException {
-        driver.get(baseUrl);
-        List<WebElement> webElements = driver.findElements(By.xpath("/html/body"));
-
-        findAllLabels(webElements.get(0));
-
-        blocks.add(new Block());
-        findAllElements(webElements.get(0), 0);
-
-        printTests();
-
     }
 }
 

@@ -85,7 +85,7 @@ public class PrintTests {
                 pw.println("<TR><TD>" + (col++)
                         + "<TD>" + "textarea" + "<TD>"
                         + (text.length() > 50 ? text.substring(0, 50)+"..." : text)
-                        + "<TD>" + generateString(s, text)
+                        + "<TD>" + generateStringToInputElement(s, text)
                         + "<TD>" + s.getLocation());
             }
 
@@ -119,7 +119,7 @@ public class PrintTests {
                     String str = getLabelForElement(s, i);
                     pw.println("<TR><TD>" + (col++)
                             + "<TD>" + "text" + "<TD>" + str
-                            + "<TD>" + generateString(s, str)
+                            + "<TD>" + generateStringToInputElement(s, str)
                             + "<TD>" + s.getLocation());
                 }
 

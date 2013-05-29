@@ -16,15 +16,11 @@ import java.util.Random;
  */
 public class Data {
 
-
     private static Random rnd = new Random();
     private static String[] names = new String[]{"Андрей", "Иван", "Михаил", "Александр"};
     private static String[] secondNames = new String[]{"Иванов", "Прохоров", "Соколов", "Сидоров"};
     private static String[] phones = new String[]{"+7 916 123 11 22", "+7 917 351 49 91", "+7 926 413 11 22", "+7 916 836 29 82"};
     private static String[] cities = new String[]{"Душанбе", "Москва", "Киев", "Ташкент"};
-
-
-
 
     public static String getName() {
         return names[rnd.nextInt(names.length)];
@@ -68,7 +64,7 @@ public class Data {
         return str;
     }
 
-    static String generateString(WebElement s, String str){
+    static String generateStringToInputElement(WebElement s, String str){
         Random rnd = new Random();
         if(s.getTagName().equals("input")){
             String tagType = s.getAttribute("type");
