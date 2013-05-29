@@ -13,9 +13,8 @@ import java.util.List;
  * Email: ko6a93@bk.ru
  */
 public class Block {
-        public int idOfParent = 0;
+        public int parentId = 0;
         public List<WebElement> buttons = new ArrayList<WebElement>();
-        //public List<WebElement> imageButtons = new ArrayList<WebElement>();
         public List<WebElement> links = new ArrayList<WebElement>();
         public List<WebElement> images = new ArrayList<WebElement>();
         public List<WebElement> inputs = new ArrayList<WebElement>();

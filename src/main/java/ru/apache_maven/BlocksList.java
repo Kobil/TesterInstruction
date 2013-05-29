@@ -17,6 +17,7 @@ import java.util.List;
 public class BlocksList {
     public static List<Block> blocks = new ArrayList<Block>();
     public static HashMap<String, String> labels = new HashMap<String, String>();
+
     public static String getLabelForElement(WebElement s, int id){
         if (labels.get(s.getAttribute("id"))!=null)
             return labels.get(s.getAttribute("id"));

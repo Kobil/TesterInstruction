@@ -28,6 +28,7 @@ public class Tester {
         tester.Init();
         tester.Start();
     }
+
     @Before
     public void Init() throws FileNotFoundException {
         driver = new FirefoxDriver();
@@ -70,57 +71,57 @@ public class Tester {
         }
     }
 
-    public void findAllElements(WebElement element, int idOfParent){
+    public void findAllElements(WebElement element, int parentId){
         String elemName = element.getTagName();
         if(elemName.equals("script") ||
                 element.getCssValue("visibility").equals("hidden") ||
                 element.getCssValue("display").equals("none"))
             return;
         if (elemName.equals("a")){
-            blocks.get(idOfParent).links.add(element);
+            blocks.get(parentId).links.add(element);
 
         }
         else
         if (elemName.equals("button")){
-            blocks.get(idOfParent).buttons.add(element);
+            blocks.get(parentId).buttons.add(element);
 
 
         }
         else
         if (elemName.equals("img")){
-            blocks.get(idOfParent).images.add(element);
+            blocks.get(parentId).images.add(element);
 
         }
         else
         if(elemName.equals("input")){
-            blocks.get(idOfParent).inputs.add(element);
+            blocks.get(parentId).inputs.add(element);
         }
         else
         if(elemName.equals("select")) {
-            blocks.get(idOfParent).selects.add(element);
+            blocks.get(parentId).selects.add(element);
         }
         else
         if(elemName.equals("textarea")) {
-            blocks.get(idOfParent).textAreas.add(element);
+            blocks.get(parentId).textAreas.add(element);
         }
         else
         if(elemName.equals("label")) {
-            blocks.get(idOfParent).labelsList.add(element);
+            blocks.get(parentId).labelsList.add(element);
 
         }
         else
         if(elemName.equals("div")) {
-            if (element.getText().length() < 50) blocks.get(idOfParent).divs.add(element);
+            if (element.getText().length() < 50) blocks.get(parentId).divs.add(element);
         }
         else
         if(elemName.equals("form")){
             blocks.add(new Block());
-            blocks.get(blocks.size()-1).idOfParent = idOfParent;
-            idOfParent = blocks.size()-1;
+            blocks.get(blocks.size()-1).parentId = parentId;
+            parentId = blocks.size()-1;
         }
         List<WebElement> webElems = element.findElements(By.xpath("*"));
         for(WebElement x : webElems)
-            findAllElements(x, idOfParent);
+            findAllElements(x, parentId);
     }
 }
 
