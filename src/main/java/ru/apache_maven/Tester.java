@@ -107,8 +107,9 @@ public class Tester {
                 parentId = blocks.size()-1;
         }
         List<WebElement> webElems = element.findElements(By.xpath("*"));
-        for(WebElement x : webElems)
+        for(WebElement x : webElems){
             findAllElements(x, parentId);
+        }
     }
 }
 

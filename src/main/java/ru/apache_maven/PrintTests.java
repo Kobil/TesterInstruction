@@ -33,9 +33,9 @@ public class PrintTests {
 
         pw.println("<HTML>"
                 +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
-                +"<HEAD><META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Test 1</TITLE></HEAD>");
+                +"<HEAD><META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Ссылки</TITLE></HEAD>");
         pw.println("<BODY><H1 ALIGN=\"center\">Тест1 - Ссылки</H1>");
-        pw.println("<H2 ALIGN=\"center\">Кликнуть по элементу:</H2>");
+        pw.println("<H2 ALIGN=\"center\">Кликнуть по ссылке:</H2>");
         pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Text<TH>Location</TR>");
 
         int col = 0;
@@ -60,7 +60,7 @@ public class PrintTests {
             WebElement bSubmit = null;
             PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
-            pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+">" + nameOfFile + "</a><TH>" + "заполнение форм" + "</TR>");
+            pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+">" + nameOfFile + "</a><TH>" + "заполнение формы" + "</TR>");
 
             pw.println("<HTML>"
                     +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
@@ -76,7 +76,7 @@ public class PrintTests {
                 pw.println("<TR><TD>" + (col++)
                         + "<TD>" + "select" + "<TD>"
                         + (s.getText().length() > 50 ?  s.getText().substring(0, 50)+"..." :  s.getText())
-                        + "<TD>" + "Выбрать:"+ values[t]
+                        + "<TD>" + "Выбрать: "+ values[t]
                         + "<TD>" + s.getLocation());
 
             }
@@ -95,7 +95,8 @@ public class PrintTests {
                 if (s.getAttribute("type").equals("checkbox"))
                     pw.println("<TR><TD>" + (col++)
                             + "<TD>" + "checkbox" + "<TD>"
-                            + (text.length() > 50 ? text.substring(0, 50)+"..." : text) + "<TD>" + (col % 2 == 1 ? "true" : "false")
+                            + (text.length() > 50 ? text.substring(0, 50)+"..." : text) + "<TD>"
+                            + (col % 2 == 1 ? "выбрать" : "не выбирать")
                             + "<TD>" + s.getLocation());
 
                 if (s.getAttribute("type").equals("radio")
@@ -127,7 +128,7 @@ public class PrintTests {
                 if(s.getAttribute("type").equals("password")){
                     pw.println("<TR><TD>" + (col++)
                             + "<TD>" + "password" + "<TD>" + getLabelForElement(s, i)
-                            + "<TD>" +  "Ввести:" + pass
+                            + "<TD>" +  "Ввести: " + pass
                             + "<TD>" + s.getLocation());
                 }
 
@@ -166,7 +167,7 @@ public class PrintTests {
                 +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
                 +"<META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Кнопки</TITLE><HEAD>");
         pw.println("<BODY><H1 ALIGN=\"center\">Test0 - Кнопки</H1>");
-        pw.println("<H2 ALIGN=\"center\">Кликнуть по элементу:</H2>");
+        pw.println("<H2 ALIGN=\"center\">Кликнуть по кнопке:</H2>");
         pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Тип<TH>Text<TH>Location</TR>");
         int col = 0;
         for(int i = 0; i < blocks.size(); i++){
@@ -184,10 +185,11 @@ public class PrintTests {
             }
 
             for(WebElement s : blocks.get(i).inputs){
+                String text = s.getAttribute("value");
                 if(s.getAttribute("value")!=null && s.getAttribute("type").equals("submit")) {
                     col++;
                     pw.println("<TR><TD>" + col + "<TD>" + "button"+ "<TD>"
-                            + getLabelForElement(s, i) + " " +s.getAttribute("value")
+                            + (text != null ? text : getLabelForElement(s, i))
                             + "<TD>" + s.getLocation());
                 }
             }
