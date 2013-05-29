@@ -23,4 +23,6 @@ public class Block {
         public List<WebElement> labelsList = new ArrayList<WebElement>();
         public List<WebElement> divs = new ArrayList<WebElement>();
         public List<WebElement> spans = new ArrayList<WebElement>();
+        public List<WebElement> maps = new ArrayList<WebElement>();
+        public List<WebElement> flashMovies = new ArrayList<WebElement>();
 }

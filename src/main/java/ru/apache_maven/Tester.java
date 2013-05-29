@@ -98,6 +98,13 @@ public class Tester {
             if (element.getText().length() < 50) blocks.get(parentId).divs.add(element);
         }else if(elemName.equals("span")) {
             if (element.getText().length() < 50) blocks.get(parentId).divs.add(element);
+        }else if(elemName.equals("ymaps") || elemName.equals("map")) {
+            blocks.get(parentId).maps.add(element);
+            return;
+        }
+        else if(elemName.equals("embed") || elemName.equals("object")) {
+            blocks.get(parentId).flashMovies.add(element);
+            return;
         }
         else if(elemName.equals("form")){
             blocks.add(new Block());

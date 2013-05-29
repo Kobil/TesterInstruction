@@ -203,6 +203,38 @@ public class PrintTests {
         pw.close();
     }
 
+    private static void printTestForOtherTags() throws FileNotFoundException {
+        String nameOfFile = "test_other_tags.html";
+        PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
+
+        pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+" target=\"B\">"+nameOfFile+ "</a><TH>"
+                + "проверка правильности функционирования элементов" + "</TR>");
+
+        pw.println("<HTML>"
+                +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
+                +"<HEAD><META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Ссылки</TITLE></HEAD>");
+        pw.println("<BODY>");
+        pw.println("<H2 ALIGN=\"center\">Проверить правильность функционирования элементов:</H2>");
+        pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Type<TH>Location</TR>");
+
+        int col = 0;
+        for(int i = 0; i < blocks.size(); i++){
+            for(WebElement s : blocks.get(i).maps){
+                col++;
+                pw.println("<TR><TD>" + col + "<TD>" + s.getTagName()
+                         + "<TD>" + s.getLocation());
+            }
+            for(WebElement s : blocks.get(i).flashMovies){
+                col++;
+                pw.println("<TR><TD>" + col + "<TD>" + "flash movie"
+                         + "<TD>" + s.getLocation());
+            }
+        }
+        pw.println("</table><p align=\"center\"><a href=\"index.html\">Перейти на главную страницу</a>");
+        pw.println("</BODY></HTML>");
+        pw.close();
+    }
+
     public static void printTests() throws FileNotFoundException {
         (new File(dirName)).mkdirs();
 
@@ -251,6 +283,7 @@ public class PrintTests {
         printTestForLinks();
         printTestForForms();
         printTestForButtons();
+        printTestForOtherTags();
 
         pwMain.println("</BODY></HTML>");
         pwMain.close();
