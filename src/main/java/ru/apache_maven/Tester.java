@@ -20,7 +20,7 @@ import static ru.apache_maven.PrintTests.*;
  */
 public class Tester {
     private String baseUrl;
-    private WebDriver driver;
+    private FirefoxDriver driver;
 
     public static void main() throws FileNotFoundException {
         Tester test = new Tester();
