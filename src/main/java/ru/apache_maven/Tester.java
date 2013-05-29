@@ -20,14 +20,13 @@ import static ru.apache_maven.PrintTests.*;
  */
 public class Tester {
     private String baseUrl;
-    private FirefoxDriver driver;
+    private WebDriver driver;
 
-    public static void main() throws FileNotFoundException {
-        Tester test = new Tester();
-        test.Init();
-        test.Start();
+    public static void main(String[] args) throws FileNotFoundException {
+        Tester tester = new Tester();
+        tester.Init();
+        tester.Start();
     }
-
     @Before
     public void Init() throws FileNotFoundException {
         driver = new FirefoxDriver();
@@ -47,7 +46,7 @@ public class Tester {
         findAllElements(webElements.get(0), 0);
 
         printTests();
-
+        driver.quit();
     }
 
     public void findAllLabels(WebElement element){

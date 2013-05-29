@@ -25,7 +25,7 @@ public class PrintTests {
     private static int countOfTests = 0;
     private static PrintWriter pwMain;
 
-    private static void printTest1() throws FileNotFoundException {
+    private static void printTestForLinks() throws FileNotFoundException {
         String nameOfFile = "test_links.html";
         PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
@@ -51,7 +51,7 @@ public class PrintTests {
         pw.close();
     }
 
-    private static void printTest2() throws FileNotFoundException {
+    private static void printTestForForms() throws FileNotFoundException {
         int col = 0;
         List<String> namesOfPrintedRadio = new ArrayList<String>();
         for(int i = 1; i < blocks.size(); i++){
@@ -65,7 +65,7 @@ public class PrintTests {
             pw.println("<HTML>"
                     +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
                     +"<HEAD><META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Заполнение формы</TITLE></HEAD>");
-            pw.println("<BODY><H1 ALIGN=\"center\">" + nameOfFile +"</H1>");
+            pw.println("<BODY><H1 ALIGN=\"center\">" + "Заполнение формы" +"</H1>");
             //pw.println("<H2 ALIGN=\"center\">:</H2>");
             pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Type<TH>Text<TH>Действие<TH>Location</TR>");
 
@@ -156,7 +156,7 @@ public class PrintTests {
         }
     }
 
-    private static void printTest3() throws FileNotFoundException {
+    private static void printTestForButtons() throws FileNotFoundException {
         String nameOfFile = "test_buttons.html";
         PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
@@ -198,6 +198,19 @@ public class PrintTests {
 
     public static void printTests() throws FileNotFoundException {
         (new File(dirName)).mkdirs();
+
+        pwMain = new PrintWriter(new File(dirName + "//" + "ind.html"));
+        pwMain.println("<HTML><HEAD><link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"+
+                "<META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/>"+
+                "<TITLE>Инструкция</TITLE></HEAD>"+
+                "<frameset cols=\"50%,50%\">"+
+                "<frame src=\""+"index.html" +"\" name=frame1>" +
+                "<frame src=\"index.html\" name=freame2>"+
+                "</frameset>"+
+                "</HTML>");
+        pwMain.close();
+
+
         pwMain = new PrintWriter(new File(dirName + "//" + "style.css"));
         pwMain.println("\n" +
                 " H2 {font-size: 30pt; color: green;}" +
@@ -212,9 +225,9 @@ public class PrintTests {
         pwMain.println("<BODY alink=*green><H2 ALIGN=\"center\">Тесты:</H2>");
         pwMain.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Имя файла<TH>Тип теста</TR>");
 
-        printTest1();
-        printTest2();
-        printTest3();
+        printTestForLinks();
+        printTestForForms();
+        printTestForButtons();
 
         pwMain.println("</BODY></HTML>");
         pwMain.close();
