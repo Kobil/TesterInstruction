@@ -80,9 +80,8 @@ public class Data {
                 return "Ввести: " + getText();
             }
         }
-        else
-        if(s.getTagName().equals("textarea")){
-            return "Ввести: "+ getText();
+        else if(s.getTagName().equals("textarea")){
+                return "Ввести: "+ getText();
         }
         return "";
     }

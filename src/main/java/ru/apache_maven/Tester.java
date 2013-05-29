@@ -78,46 +78,33 @@ public class Tester {
                 element.getCssValue("display").equals("none"))
             return;
         if (elemName.equals("a")){
-            blocks.get(parentId).links.add(element);
-
+                blocks.get(parentId).links.add(element);
         }
-        else
-        if (elemName.equals("button")){
-            blocks.get(parentId).buttons.add(element);
-
-
+        else if (elemName.equals("button")){
+                blocks.get(parentId).buttons.add(element);
         }
-        else
-        if (elemName.equals("img")){
-            blocks.get(parentId).images.add(element);
-
+        else if (elemName.equals("img")){
+                blocks.get(parentId).images.add(element);
         }
-        else
-        if(elemName.equals("input")){
-            blocks.get(parentId).inputs.add(element);
+        else if(elemName.equals("input")){
+                blocks.get(parentId).inputs.add(element);
         }
-        else
-        if(elemName.equals("select")) {
-            blocks.get(parentId).selects.add(element);
+        else if(elemName.equals("select")) {
+                blocks.get(parentId).selects.add(element);
         }
-        else
-        if(elemName.equals("textarea")) {
-            blocks.get(parentId).textAreas.add(element);
+        else if(elemName.equals("textarea")) {
+                blocks.get(parentId).textAreas.add(element);
         }
-        else
-        if(elemName.equals("label")) {
-            blocks.get(parentId).labelsList.add(element);
-
+        else if(elemName.equals("label")) {
+                blocks.get(parentId).labelsList.add(element);
         }
-        else
-        if(elemName.equals("div")) {
-            if (element.getText().length() < 50) blocks.get(parentId).divs.add(element);
+        else if(elemName.equals("div")) {
+                if (element.getText().length() < 50) blocks.get(parentId).divs.add(element);
         }
-        else
-        if(elemName.equals("form")){
-            blocks.add(new Block());
-            blocks.get(blocks.size()-1).parentId = parentId;
-            parentId = blocks.size()-1;
+        else if(elemName.equals("form")){
+                blocks.add(new Block());
+                blocks.get(blocks.size()-1).parentId = parentId;
+                parentId = blocks.size()-1;
         }
         List<WebElement> webElems = element.findElements(By.xpath("*"));
         for(WebElement x : webElems)
