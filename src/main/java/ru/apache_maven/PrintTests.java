@@ -164,7 +164,7 @@ public class PrintTests {
 
         pw.println("<HTML><HEAD>"
                 +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
-                +"<META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Test 1</TITLE><HEAD>");
+                +"<META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Кнопки</TITLE><HEAD>");
         pw.println("<BODY><H1 ALIGN=\"center\">Test0 - Кнопки</H1>");
         pw.println("<H2 ALIGN=\"center\">Кликнуть по элементу:</H2>");
         pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Тип<TH>Text<TH>Location</TR>");
