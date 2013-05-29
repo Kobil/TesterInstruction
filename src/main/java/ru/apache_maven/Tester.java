@@ -23,6 +23,7 @@ public class Tester {
     private WebDriver driver;
 
     public static void main(String[] args) throws FileNotFoundException {
+        System.out.println("START!");
         Tester tester = new Tester();
         tester.Init();
         tester.Start();
