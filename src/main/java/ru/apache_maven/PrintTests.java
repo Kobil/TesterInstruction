@@ -29,12 +29,12 @@ public class PrintTests {
         String nameOfFile = "test_links.html";
         PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
-        pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+">"+nameOfFile+ "</a><TH>"+ "проверка правильности ссылок" + "</TR>");
+        pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+" target=\"B\">"+nameOfFile+ "</a><TH>"+ "проверка правильности ссылок" + "</TR>");
 
         pw.println("<HTML>"
                 +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
                 +"<HEAD><META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Ссылки</TITLE></HEAD>");
-        pw.println("<BODY><H1 ALIGN=\"center\">Тест1 - Ссылки</H1>");
+        pw.println("<BODY>");
         pw.println("<H2 ALIGN=\"center\">Кликнуть по ссылке:</H2>");
         pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Text<TH>Location</TR>");
 
@@ -47,26 +47,28 @@ public class PrintTests {
                 }
             }
         }
+        pw.println("</table><p align=\"center\"><a href=\"index.html\">Перейти на главную страницу</a>");
         pw.println("</BODY></HTML>");
         pw.close();
     }
 
     private static void printTestForForms() throws FileNotFoundException {
-        int col = 0;
+
         List<String> namesOfPrintedRadio = new ArrayList<String>();
         for(int i = 1; i < blocks.size(); i++){
+            int col = 1;
             String pass = generateStringRandom(10);
-            String nameOfFile = "test_forms-" + String.valueOf(i+2) + ".html";
+            String nameOfFile = "test_forms-" + String.valueOf(i) + ".html";
             WebElement bSubmit = null;
             PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
-            pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+">" + nameOfFile + "</a><TH>" + "заполнение формы" + "</TR>");
+            pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+" target=\"B\">" + nameOfFile + "</a><TH>" + "заполнение формы" + "</TR>");
 
             pw.println("<HTML>"
                     +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
-                    +"<HEAD><META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Заполнение формы</TITLE></HEAD>");
+                    +"<HEAD><META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/>"
+                    +"<TITLE>Заполнение формы</TITLE></HEAD>");
             pw.println("<BODY><H1 ALIGN=\"center\">" + "Заполнение формы" +"</H1>");
-            //pw.println("<H2 ALIGN=\"center\">:</H2>");
             pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Type<TH>Text<TH>Действие<TH>Location</TR>");
 
             for(WebElement s : blocks.get(i).selects){
@@ -146,12 +148,14 @@ public class PrintTests {
             }
 
             if(bSubmit != null){
-                String text = bSubmit.getAttribute("value");
                 pw.println("<TR><TD>" + (col++)
-                        + "<TD>" + "SubmitButton" + "<TD>" + (text!=null ? text : bSubmit.getText())
+                        + "<TD>" + "SubmitButton" + "<TD>"
+                        + (bSubmit.getTagName().equals("button") ? bSubmit.getText()
+                                                                 : getLabelForElement(bSubmit, i))
                         + "<TD>" +  "Кликнуть"
                         + "<TD>" + bSubmit.getLocation());
             }
+            pw.println("</table><p align=\"center\"><a href=\"index.html\">Перейти на главную страницу</a>");
             pw.println("</BODY></HTML>");
             pw.close();
         }
@@ -161,12 +165,12 @@ public class PrintTests {
         String nameOfFile = "test_buttons.html";
         PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
-        pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+">"+nameOfFile+ "</a><TH>"+ "проверка работоспособности кнопок" + "</TR>");
+        pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+" target=\"B\">"+nameOfFile+ "</a><TH>"+ "проверка работоспособности кнопок" + "</TR>");
 
         pw.println("<HTML><HEAD>"
                 +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
                 +"<META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Кнопки</TITLE><HEAD>");
-        pw.println("<BODY><H1 ALIGN=\"center\">Test0 - Кнопки</H1>");
+        pw.println("<BODY>");
         pw.println("<H2 ALIGN=\"center\">Кликнуть по кнопке:</H2>");
         pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Тип<TH>Text<TH>Location</TR>");
         int col = 0;
@@ -185,15 +189,16 @@ public class PrintTests {
             }
 
             for(WebElement s : blocks.get(i).inputs){
-                String text = s.getAttribute("value");
+                String text = getLabelForElement(s, i);
                 if(s.getAttribute("value")!=null && s.getAttribute("type").equals("submit")) {
                     col++;
                     pw.println("<TR><TD>" + col + "<TD>" + "button"+ "<TD>"
-                            + (text != null ? text : getLabelForElement(s, i))
+                            + text
                             + "<TD>" + s.getLocation());
                 }
             }
         }
+        pw.println("</table><p align=\"center\"><a href=\"index.html\">Перейти на главную страницу</a>");
         pw.println("</BODY></HTML>");
         pw.close();
     }
@@ -204,10 +209,10 @@ public class PrintTests {
         pwMain = new PrintWriter(new File(dirName + "//" + "ind.html"));
         pwMain.println("<HTML><HEAD><link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"+
                 "<META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/>"+
-                "<TITLE>Инструкция</TITLE></HEAD>"+
-                "<frameset cols=\"50%,50%\">"+
-                "<frame src=\""+"index.html" +"\" name=frame1>" +
-                "<frame src=\"index.html\" name=freame2>"+
+                "<TITLE>Instruction</TITLE></HEAD>"+
+                "<frameset cols=\"35%,65%\">"+
+                "<frame src=\""+"index.html" +"\" name=\"A\">" +
+                "<frame src=\"index.html\" name=\"B\">"+
                 "</frameset>"+
                 "</HTML>");
         pwMain.close();
@@ -215,11 +220,27 @@ public class PrintTests {
 
         pwMain = new PrintWriter(new File(dirName + "//" + "style.css"));
         pwMain.println("\n" +
-                " H2 {font-size: 30pt; color: green;}" +
-                " A {color: blue}" +
-                " TABLE {background : lightgrey}"
-                +"\n");
+                 "body {"
+            +    "background: #e4e4e4;"
+            +    "padding: 0;"
+            +    "text-align: justify;"
+            +    "font: 15px Arial, Helvetica, sans-serif;"
+            +    "color: #626262;"
+            +    "}"
+            +    "\n"
+            +    "TABLE {"
+            +    "box-shadow: 0 0 5px black; /* Параметры тени */"
+            +    "box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Параметры тени */"
+            +    "-moz-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Firefox */"
+            +    "-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Safari и Chrome */"
+            +    "background: #f2f2f2;"
+            +    "padding: 30;"
+            +    "text-align: center;"
+            +    "border-radius: 6px;"
+            +    "}"
+            +    "\n");
         pwMain.close();
+
         pwMain = new PrintWriter(new File(dirName + "//" + "index.html"));
         pwMain.println("<HTML><HEAD>"
                 +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"

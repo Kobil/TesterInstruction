@@ -73,8 +73,7 @@ public class Tester {
 
     public void findAllElements(WebElement element, int parentId){
         String elemName = element.getTagName();
-        if(elemName.equals("script") ||
-                element.getCssValue("visibility").equals("hidden") ||
+        if(elemName.equals("script") || element.getCssValue("visibility").equals("hidden") ||
                 element.getCssValue("display").equals("none"))
             return;
         if (elemName.equals("a")){
@@ -85,6 +84,7 @@ public class Tester {
         }
         else if (elemName.equals("img")){
                 blocks.get(parentId).images.add(element);
+                return;
         }
         else if(elemName.equals("input")){
                 blocks.get(parentId).inputs.add(element);
@@ -94,11 +94,14 @@ public class Tester {
         }
         else if(elemName.equals("textarea")) {
                 blocks.get(parentId).textAreas.add(element);
+                return;
         }
         else if(elemName.equals("label")) {
                 blocks.get(parentId).labelsList.add(element);
         }
         else if(elemName.equals("div")) {
+                if (element.getText().length() < 50) blocks.get(parentId).divs.add(element);
+        }else if(elemName.equals("span")) {
                 if (element.getText().length() < 50) blocks.get(parentId).divs.add(element);
         }
         else if(elemName.equals("form")){
