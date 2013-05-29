@@ -9,6 +9,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.io.*;
 import java.util.List;
+import java.util.Scanner;
 
 import static ru.apache_maven.BlocksList.*;
 import static ru.apache_maven.PrintTests.*;
@@ -24,7 +25,9 @@ public class Tester {
     @Before
     public void Init() throws FileNotFoundException {
         driver = new FirefoxDriver();
-        baseUrl = "http://www.ya.ru" ;//"https://passport.yandex.ru/passport?mode=simplereg&retpath=https%3A%2F%2Fmail.yandex.ru%2F%3Forigin%3Dhome_ru_nohint&origin=home_ru_nohint";
+        Scanner sc = new Scanner(new File("input.txt"));
+        baseUrl = sc.nextLine();
+       // baseUrl = "http://www.ya.ru" ;//"https://passport.yandex.ru/passport?mode=simplereg&retpath=https%3A%2F%2Fmail.yandex.ru%2F%3Forigin%3Dhome_ru_nohint&origin=home_ru_nohint";
     }
 
     public void findAllLabels(WebElement element){

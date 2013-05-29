@@ -28,5 +28,26 @@
             <version>2.31.0</version>
         </dependency>
     </dependencies>
+
+    <scm>
+        <url>https://github.com/Kobil/TesterInstruction.git</url>
+        <connection>scm:ssh:github.com/Kobil/TesterInstruction.git</connection>
+    </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>Tester</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
     
