@@ -280,7 +280,6 @@ public class PrintTests {
                 "</HTML>");
         pwMain.close();
 
-
         pwMain = new PrintWriter(new File(dirName + "//" + "style.css"));
         pwMain.println("\n" +
                  "body {"
