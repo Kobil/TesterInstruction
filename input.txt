@@ -1,3 +1,5 @@
+http://pogoda.yandex.ru/saint-petersburg/
+
 http://uslugi.yandex.ru/banki/autocredits/
 
 http://www.ya.ru
@@ -5,6 +7,6 @@ http://www.ya.ru
 http://www.yandex.ru
 
 
-http://pogoda.yandex.ru/saint-petersburg/
+
 
 http://auto.yandex.ru/avg-price.xml

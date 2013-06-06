@@ -54,7 +54,6 @@ public class Tester {
 
         t1 = System.nanoTime();
         findAllElementsNotRecurs(webElements.get(0));
-        // findAllElementsRecurs(webElements.get(0), 0);
         System.out.println("Time findAllElementsNotRecurs: " + ((System.nanoTime() - t1)/(1e+9)));
 
         t1 = System.nanoTime();
@@ -72,7 +71,6 @@ public class Tester {
             for(WebElement s : webElements){
                 String textId = s.getAttribute("for");
                 if(textId!=null){
-                    //System.out.println("label: " + s.getText());
                     labels.put(textId, s.getText());
                 }
             }
@@ -110,7 +108,6 @@ public class Tester {
             blocks.get(blocksLen).divs = webElement.findElements(By.xpath(".//div"));
             blocks.get(blocksLen).spans = webElement.findElements(By.xpath(".//span"));
         }
-        //System.out.println("Blocks.size(): " + blocks.size() + " ~ " + blocksLen);
     }
 
     public void findAllElementsRecurs(WebElement element, int parentId){

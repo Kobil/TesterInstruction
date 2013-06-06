@@ -35,7 +35,6 @@ public class BlocksList {
 
         List<WebElement> webElements = s.findElements(By.xpath(".//preceding-sibling::* " +
                 "| .//ancestor::label | //h1 | //h2 | //h3"
-               // + "| //label"
         ));
 
         ans = findTextInList(webElements, ans);
@@ -54,16 +53,14 @@ public class BlocksList {
 
     public static String findTextInList(List<WebElement> webElements, String ans){
         Point sLocation;
-        //System.out.println("findTextInList() webElements.size= " + webElements.size());
+        int xx, yy, d;
         for(WebElement ss : webElements){
-            //System.out.println("-tags name: " + ss.getTagName() + " text: " + ss.getText());
             String text = ss.getText();
             if(text!=null && !text.equals("")){
                 sLocation = ss.getLocation();
-                int xx = sLocation.getX();
-                int yy = sLocation.getY();
-                int d =  Math.abs(yy-y) + Math.abs(xx-x);
-                //System.out.println("d: " + d);
+                xx = sLocation.getX();
+                yy = sLocation.getY();
+                d =  Math.abs(yy-y) + Math.abs(xx-x);
                 if (d < r && yy <= y){
                     r = d;
                     ans = text;
