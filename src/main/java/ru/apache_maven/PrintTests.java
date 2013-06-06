@@ -181,6 +181,7 @@ public class PrintTests {
                 pw.close();
             }
 
+
         }
     }
 
@@ -243,20 +244,22 @@ public class PrintTests {
                 +"<HEAD><META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Ссылки</TITLE></HEAD>");
         pw.println("<BODY>");
         pw.println("<H2 ALIGN=\"center\">Проверить правильность функционирования элементов:</H2>");
-        pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Type<TH>Location</TR>");
+        pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Type<TH>Text<TH>Location</TR>");
 
         int col = 0;
 
         for(WebElement s : blocks.get(0).maps){
             col++;
-            pw.println("<TR><TD>" + col + "<TD>" + s.getTagName()
-                     + "<TD>" + s.getLocation());
+            pw.println("<TR><TD>" + col + "<TD>" + getLabelForElement(s, 0)
+                    + "<TD>"+ s.getTagName()
+                    + "<TD>" + s.getLocation());
         }
 
         for(WebElement s : blocks.get(0).flashMovies){
             col++;
-            pw.println("<TR><TD>" + col + "<TD>" + "flash movie"
-                     + "<TD>" + s.getLocation());
+            pw.println("<TR><TD>" + col + "<TD>" + getLabelForElement(s, 0)
+                    + "<TD>" + "flash movie"
+                    + "<TD>" + s.getLocation());
         }
 
         pw.println("</table><p align=\"center\"><a href=\"index.html\">Перейти на главную страницу</a>");
@@ -332,6 +335,6 @@ public class PrintTests {
         Point pointElement = webElement.getLocation();
         if(pointElement.getX() == 0 && pointElement.getY() == 0) return;
         count++;
-        textForPrint += textToAdd +  pointElement;
+        textForPrint += "\n" + textToAdd +  pointElement;
     }
 }
