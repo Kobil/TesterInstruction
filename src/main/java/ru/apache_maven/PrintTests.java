@@ -311,21 +311,11 @@ public class PrintTests {
                 +"<META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Инструкция</TITLE></HEAD>");
         pwMain.println("<BODY alink=*green><H2 ALIGN=\"center\">Тесты:</H2>");
         pwMain.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Имя файла<TH>Тип теста</TR>");
-        long t1 = System.nanoTime();
+
         printTestForLinks();
-        System.out.println("Time printTestForLinks(): " + ((System.nanoTime() - t1)/(1e+9)));
-
-        t1 = System.nanoTime();
         printTestForForms();
-        System.out.println("Time printTestForForms(): " + ((System.nanoTime() - t1)/(1e+9)));
-
-        t1 = System.nanoTime();
         printTestForButtons();
-        System.out.println("Time printTestForButtons(): " + ((System.nanoTime() - t1)/(1e+9)));
-
-        t1 = System.nanoTime();
         printTestForOtherTags();
-        System.out.println("Time printTestForOtherTags(): " + ((System.nanoTime() - t1)/(1e+9)));
 
         pwMain.println("</BODY></HTML>");
         pwMain.close();

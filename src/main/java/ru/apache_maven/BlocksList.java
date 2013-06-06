@@ -69,4 +69,53 @@ public class BlocksList {
         }
         return ans;
     }
+
+    public static void findAllLabels(WebElement element){
+        try{
+            List<WebElement> webElements = element.findElements(By.xpath("//label"));
+            for(WebElement s : webElements){
+                String textId = s.getAttribute("for");
+                if(textId!=null){
+                    labels.put(textId, s.getText());
+                }
+            }
+        }catch (Exception e){
+            System.out.println("void findAllLabels(): " + e);
+        }
+    }
+
+    public static void findAllElements(WebElement element){
+        try{
+            blocks.add(new Block());
+            blocks.get(0).inputs = element.findElements(By.xpath("//input"));
+            blocks.get(0).links = element.findElements(By.xpath("//a"));
+            blocks.get(0).buttons = element.findElements(By.xpath("//button"));
+            blocks.get(0).images = element.findElements(By.xpath("//img"));
+            blocks.get(0).selects = element.findElements(By.xpath("//select"));
+            blocks.get(0).textAreas = element.findElements(By.xpath("//textarea"));
+            blocks.get(0).maps = element.findElements(By.xpath("//map | //ymaps"));
+            blocks.get(0).flashMovies = element.findElements(By.xpath("//embed | //object"));
+            blocks.get(0).divs = element.findElements(By.xpath("//div"));
+            blocks.get(0).spans = element.findElements(By.xpath("//span"));
+
+            List<WebElement> forms = element.findElements(By.xpath("//form"));
+            int blocksLen = 0;
+            for(WebElement webElement : forms){
+                blocks.add(new Block());
+                blocksLen++;
+                blocks.get(blocksLen).inputs = webElement.findElements(By.xpath(".//input"));
+                blocks.get(blocksLen).links = webElement.findElements(By.xpath(".//a"));
+                blocks.get(blocksLen).buttons = webElement.findElements(By.xpath(".//button"));
+                blocks.get(blocksLen).images = webElement.findElements(By.xpath(".//img"));
+                blocks.get(blocksLen).selects = webElement.findElements(By.xpath(".//select"));
+                blocks.get(blocksLen).textAreas = webElement.findElements(By.xpath(".//textarea"));
+                blocks.get(blocksLen).maps = webElement.findElements(By.xpath(".//map | .//ymaps"));
+                blocks.get(blocksLen).flashMovies = webElement.findElements(By.xpath(".//embed | .//object"));
+                blocks.get(blocksLen).divs = webElement.findElements(By.xpath(".//div"));
+                blocks.get(blocksLen).spans = webElement.findElements(By.xpath(".//span"));
+            }
+        }catch (Exception e){
+            System.out.println("void findAllLabels(): " + e);
+        }
+    }
 }

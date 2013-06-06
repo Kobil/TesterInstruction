@@ -1,6 +1,6 @@
-http://pogoda.yandex.ru/saint-petersburg/
-
 http://uslugi.yandex.ru/banki/autocredits/
+
+http://pogoda.yandex.ru/saint-petersburg/
 
 http://www.ya.ru
 
