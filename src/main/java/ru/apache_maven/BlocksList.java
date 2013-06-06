@@ -1,5 +1,8 @@
 package ru.apache_maven;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -17,49 +20,53 @@ import java.util.List;
 public class BlocksList {
     public static List<Block> blocks = new ArrayList<Block>();
     public static HashMap<String, String> labels = new HashMap<String, String>();
+    private static int r, x, y;
 
     public static String getLabelForElement(WebElement s, int id){
         if (labels.get(s.getAttribute("id"))!=null && !labels.get(s.getAttribute("id")).equals(""))
             return labels.get(s.getAttribute("id"));
+        String ans;
 
-        String ans = s.getAttribute("value");
-        if (ans!=null && !ans.equals("")) return ans;
-        ans = "Текст";
-        int r = 10000;
-        int x = s.getLocation().getX();
-        int y = s.getLocation().getY();
-        for(id = 0; id < blocks.size(); id++){
-            for(WebElement ss : blocks.get(id).labelsList){
-                if(ss.getText()!=null && !ss.getText().equals("")){
-                    int xx = ss.getLocation().getX();
-                    int yy = ss.getLocation().getY();
-                    int d = Math.abs(xx-x) + Math.abs(yy-y);
-                    if (d < r && yy <= y && xx <= x ){
-                        r = d;
-                        ans = ss.getText();
-                    }
-                }
+        Point sLocation = s.getLocation();
+        ans = "-";
+        r = 10000;
+        x = sLocation.getX();
+        y = sLocation.getY();
+
+        List<WebElement> webElements = s.findElements(By.xpath(".//preceding-sibling::* " +
+                "| .//ancestor::label | //h1 | //h2 | //h3"
+               // + "| //label"
+        ));
+
+        ans = findTextInList(webElements, ans);
+
+        if(ans.equals("-") || s.getTagName().equals("input")){
+            String text = s.getAttribute("value");
+            if (text!=null && !text.equals("") && !text.matches("^[0-9\\s]+$")){
+                return text;
             }
-            for(WebElement ss : blocks.get(id).divs){
-                if(ss.getText()!=null && !ss.getText().equals("")){
-                    int xx = ss.getLocation().getX();
-                    int yy = ss.getLocation().getY();
-                    int d = Math.abs(xx-x) + Math.abs(yy-y);
-                    if (d < r && yy <= y && xx <= x){
-                        r = d;
-                        ans = ss.getText();
-                    }
-                }
+            else{
+                return ans;
             }
-            for(WebElement ss : blocks.get(id).spans){
-                if(ss.getText()!=null && !ss.getText().equals("")){
-                    int xx = ss.getLocation().getX();
-                    int yy = ss.getLocation().getY();
-                    int d = Math.abs(xx-x) + Math.abs(yy-y);
-                    if (d < r && yy <= y && xx <= x){
-                        r = d;
-                        ans = ss.getText();
-                    }
+        }
+        return ans;
+    }
+
+    public static String findTextInList(List<WebElement> webElements, String ans){
+        Point sLocation;
+        //System.out.println("findTextInList() webElements.size= " + webElements.size());
+        for(WebElement ss : webElements){
+            //System.out.println("-tags name: " + ss.getTagName() + " text: " + ss.getText());
+            String text = ss.getText();
+            if(text!=null && !text.equals("")){
+                sLocation = ss.getLocation();
+                int xx = sLocation.getX();
+                int yy = sLocation.getY();
+                int d =  Math.abs(yy-y) + Math.abs(xx-x);
+                //System.out.println("d: " + d);
+                if (d < r && yy <= y){
+                    r = d;
+                    ans = text;
                 }
             }
         }

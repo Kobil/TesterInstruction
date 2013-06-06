@@ -20,7 +20,6 @@ public class Block {
         public List<WebElement> inputs = new ArrayList<WebElement>();
         public List<WebElement> selects = new ArrayList<WebElement>();
         public List<WebElement> textAreas = new ArrayList<WebElement>();
-        public List<WebElement> labelsList = new ArrayList<WebElement>();
         public List<WebElement> divs = new ArrayList<WebElement>();
         public List<WebElement> spans = new ArrayList<WebElement>();
         public List<WebElement> maps = new ArrayList<WebElement>();

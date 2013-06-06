@@ -1,5 +1,6 @@
 package ru.apache_maven;
 
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
@@ -24,12 +25,14 @@ public class PrintTests {
     private static String dirName = "Intructions-HTML";
     private static int countOfTests = 0;
     private static PrintWriter pwMain;
-
+    private static String textForPrint;
+    private static int count;
     private static void printTestForLinks() throws FileNotFoundException {
         String nameOfFile = "test_links.html";
         PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
-        pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+" target=\"B\">"+nameOfFile+ "</a><TH>"+ "проверка правильности ссылок" + "</TR>");
+        pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+" target=\"B\">" + nameOfFile
+                + "</a><TH>"+ "проверка правильности ссылок" + "</TR>");
 
         pw.println("<HTML>"
                 +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
@@ -39,99 +42,109 @@ public class PrintTests {
         pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Text<TH>Location</TR>");
 
         int col = 0;
-        for(int i = 0; i < blocks.size(); i++){
-            for(WebElement s : blocks.get(i).links){
-                if(s.getText().length() > 0) {
-                    col++;
-                    pw.println("<TR><TD>" + col  + "<TD>" + s.getText() + "<TD>" + s.getLocation());
-                }
+
+        for(WebElement s : blocks.get(0).links){
+            if(s.getText().length() > 0) {
+                col++;
+                pw.println("<TR><TD>" + col  + "<TD>" + s.getText() + "<TD>" + s.getLocation());
             }
         }
+
         pw.println("</table><p align=\"center\"><a href=\"index.html\">Перейти на главную страницу</a>");
         pw.println("</BODY></HTML>");
         pw.close();
     }
 
     private static void printTestForForms() throws FileNotFoundException {
-
+        Random rnd = new Random();
         List<String> namesOfPrintedRadio = new ArrayList<String>();
+
+        int countOfForms = 0;
         for(int i = 1; i < blocks.size(); i++){
-            int col = 1;
+            count = 1;
             String pass = generateStringRandom(10);
-            String nameOfFile = "test_forms-" + String.valueOf(i) + ".html";
+            String text;
+            textForPrint = "";
             WebElement bSubmit = null;
-            PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
-            pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+" target=\"B\">" + nameOfFile + "</a><TH>" + "заполнение формы" + "</TR>");
+            List<WebElement> radios = new ArrayList<WebElement>();
 
-            pw.println("<HTML>"
+
+            textForPrint += ("<HTML>"
                     +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
                     +"<HEAD><META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/>"
                     +"<TITLE>Заполнение формы</TITLE></HEAD>");
-            pw.println("<BODY><H1 ALIGN=\"center\">" + "Заполнение формы" +"</H1>");
-            pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Type<TH>Text<TH>Действие<TH>Location</TR>");
+            textForPrint += "\n" + ("<BODY><H1 ALIGN=\"center\">" + "Заполнение формы" +"</H1>");
+            textForPrint += "\n" + ("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Type<TH>Text<TH>Действие<TH>Location</TR>");
 
             for(WebElement s : blocks.get(i).selects){
-                Random rnd = new Random();
-                String[] values = s.getText().split("\n");
-                int t = rnd.nextInt(values.length);
-                pw.println("<TR><TD>" + (col++)
-                        + "<TD>" + "select" + "<TD>"
-                        + (s.getText().length() > 50 ?  s.getText().substring(0, 50)+"..." :  s.getText())
-                        + "<TD>" + "Выбрать: "+ values[t]
-                        + "<TD>" + s.getLocation());
-
+                text = s.getText();
+                if(text != null){
+                    String[] values = text.split("\n");
+                    int t = rnd.nextInt(values.length);
+                    addWebElementData("\n" + ("<TR><TD>" + count
+                            + "<TD>" + "select" + "<TD>"
+                            + (text.length() > 50 ?  text.substring(0, 50) + "..." : text)
+                            + "<TD>" + "Выбрать: "+ values[t]
+                            + "<TD>"), s);
+                }
             }
 
             for(WebElement s : blocks.get(i).textAreas){
-                String text = getLabelForElement(s, i);
-                pw.println("<TR><TD>" + (col++)
+                text = getLabelForElement(s, i);
+                if(text != null){
+                    addWebElementData("\n" + ("<TR><TD>" + count
                         + "<TD>" + "textarea" + "<TD>"
                         + (text.length() > 50 ? text.substring(0, 50)+"..." : text)
-                        + "<TD>" + generateStringToInputElement(s, text)
-                        + "<TD>" + s.getLocation());
+                        + "<TD>" + generateStringForInputElement(s, text)
+                        + "<TD>"), s);
+                }
             }
 
             for(WebElement s : blocks.get(i).inputs){
-                String text = labels.get(s.getAttribute("id"));
-                if (s.getAttribute("type").equals("checkbox"))
-                    pw.println("<TR><TD>" + (col++)
+                text = getLabelForElement(s, i);
+                if (text!=null && s.getAttribute("type").equals("checkbox")){
+                    addWebElementData("\n" + ("<TR><TD>" + count
                             + "<TD>" + "checkbox" + "<TD>"
                             + (text.length() > 50 ? text.substring(0, 50)+"..." : text) + "<TD>"
-                            + (col % 2 == 1 ? "выбрать" : "не выбирать")
-                            + "<TD>" + s.getLocation());
+                            + (count % 2 == 1 ? "Выбрать" : "Не выбирать")
+                            + "<TD>") , s);
+                }
 
-                if (s.getAttribute("type").equals("radio")
-                        && namesOfPrintedRadio.indexOf(s.getAttribute("name"))==-1){
-                    Random rnd = new Random();
+                if (s.getAttribute("type").equals("radio") && namesOfPrintedRadio.indexOf(s.getAttribute("name"))==-1){
                     namesOfPrintedRadio.add(s.getAttribute("name"));
-                    List<WebElement> radios = new ArrayList<WebElement>();
-                    for(int j = 0; j < blocks.get(i).inputs.size(); j++)
-                        if (s.getAttribute("name").equals(blocks.get(i).inputs.get(j).getAttribute("name")))
+                    radios.clear();
+                    for(int j = 0; j < blocks.get(i).inputs.size(); j++){
+                        if (s.getAttribute("name").equals(blocks.get(i).inputs.get(j).getAttribute("name"))){
                             radios.add(blocks.get(i).inputs.get(j));
+                        }
+                    }
                     int t = rnd.nextInt(radios.size());
                     for(int j = 0; j < radios.size(); j++){
-                        text = radios.get(j).getAttribute("value");
-                        pw.println("<TR><TD>" + (col++)
-                                + "<TD>" + "radio" + "<TD>" + labels.get(radios.get(j).getAttribute("id"))+" = "
-                                + (text.length() > 50 ? text.substring(0, 50) +"..." : text) + "<TD>" + (t==j ? "Выбрать" : "-")
-                                + "<TD>" + radios.get(j).getLocation());
+                        text = getLabelForElement(radios.get(j), j);
+                        if(text != null){
+                            addWebElementData("\n" + ("<TR><TD>" + count
+                                + "<TD>" + "radio" + "<TD>"
+                                +(text.length() > 50 ? text.substring(0, 50) +"..." : text)
+                                + "<TD>" + (t==j ? "Выбрать" : "-")
+                                + "<TD>"), radios.get(j));
+                        }
                     }
                 }
 
                 if(s.getAttribute("type").equals("text")){
                     String str = getLabelForElement(s, i);
-                    pw.println("<TR><TD>" + (col++)
+                    addWebElementData("\n" + ("<TR><TD>" + count
                             + "<TD>" + "text" + "<TD>" + str
-                            + "<TD>" + generateStringToInputElement(s, str)
-                            + "<TD>" + s.getLocation());
+                            + "<TD>" + generateStringForInputElement(s, str)
+                            + "<TD>"), s);
                 }
 
                 if(s.getAttribute("type").equals("password")){
-                    pw.println("<TR><TD>" + (col++)
+                    addWebElementData("\n" + ("<TR><TD>" + count
                             + "<TD>" + "password" + "<TD>" + getLabelForElement(s, i)
                             + "<TD>" +  "Ввести: " + pass
-                            + "<TD>" + s.getLocation());
+                            + "<TD>"), s);
                 }
 
                 if (s.getAttribute("type").equals("submit")){
@@ -148,16 +161,26 @@ public class PrintTests {
             }
 
             if(bSubmit != null){
-                pw.println("<TR><TD>" + (col++)
+                addWebElementData("\n" + ("<TR><TD>" + count
                         + "<TD>" + "SubmitButton" + "<TD>"
                         + (bSubmit.getTagName().equals("button") ? bSubmit.getText()
                                                                  : getLabelForElement(bSubmit, i))
                         + "<TD>" +  "Кликнуть"
-                        + "<TD>" + bSubmit.getLocation());
+                        + "<TD>"), bSubmit);
+
+                textForPrint += "\n" + ("</table><p align=\"center\"><a href=\"index.html\">Перейти на главную страницу</a>");
+                textForPrint += "\n" + ("</BODY></HTML>");
+
+                String nameOfFile = "test_forms-" + String.valueOf(++countOfForms) + ".html";
+                PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
+
+                pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href=" + nameOfFile + " target=\"B\">"
+                        + nameOfFile + "</a><TH>" + "заполнение формы" + "</TR>");
+
+                pw.println(textForPrint);
+                pw.close();
             }
-            pw.println("</table><p align=\"center\"><a href=\"index.html\">Перейти на главную страницу</a>");
-            pw.println("</BODY></HTML>");
-            pw.close();
+
         }
     }
 
@@ -165,7 +188,8 @@ public class PrintTests {
         String nameOfFile = "test_buttons.html";
         PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
-        pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+" target=\"B\">"+nameOfFile+ "</a><TH>"+ "проверка работоспособности кнопок" + "</TR>");
+        pwMain.println("<TR><TH>"+ (++countOfTests) +"<TH><a href="+nameOfFile+" target=\"B\">" + nameOfFile
+                + "</a><TH>"+ "проверка работоспособности кнопок" + "</TR>");
 
         pw.println("<HTML><HEAD>"
                 +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
@@ -173,31 +197,35 @@ public class PrintTests {
         pw.println("<BODY>");
         pw.println("<H2 ALIGN=\"center\">Кликнуть по кнопке:</H2>");
         pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Тип<TH>Text<TH>Location</TR>");
-        int col = 0;
-        for(int i = 0; i < blocks.size(); i++){
-            for(WebElement s : blocks.get(i).buttons){
-                if(s.getText().length() > 0) {
-                    col++;
-                    pw.println("<TR><TD>" + col+ "<TD>" + "button"  + "<TD>" + s.getText() + "<TD>" + s.getLocation());
-                }
-            }
-            for(WebElement s : blocks.get(i).images){
-                if(s.getText().length() > 0 && s.getAttribute("onclick") != null) {
-                    col++;
-                    pw.println("<TR><TD>" + col + "<TD>" + "image"+ "<TD>" + s.getAttribute("src") + "<TD>" + s.getLocation());
-                }
-            }
 
-            for(WebElement s : blocks.get(i).inputs){
-                String text = getLabelForElement(s, i);
-                if(s.getAttribute("value")!=null && s.getAttribute("type").equals("submit")) {
-                    col++;
-                    pw.println("<TR><TD>" + col + "<TD>" + "button"+ "<TD>"
-                            + text
-                            + "<TD>" + s.getLocation());
-                }
+        int col = 0;
+        String text;
+        for(WebElement s : blocks.get(0).buttons){
+            text = s.getText();
+            if((text != null) && (text.length() > 0)) {
+                col++;
+                pw.println("<TR><TD>" + col+ "<TD>" + "button"  + "<TD>" + text + "<TD>" + s.getLocation());
             }
         }
+
+        for(WebElement s : blocks.get(0).images){
+            text = s.getText();
+            if((text != null) && (text.length() > 0) && (s.getAttribute("onclick") != null)) {
+                col++;
+                pw.println("<TR><TD>" + col + "<TD>" + "image"+ "<TD>" + s.getAttribute("src") + "<TD>" + s.getLocation());
+            }
+        }
+
+        for(WebElement s : blocks.get(0).inputs){
+            if((s.getAttribute("value")!=null) && (s.getAttribute("type").equals("submit"))) {
+                text = getLabelForElement(s, 0);
+                col++;
+                pw.println("<TR><TD>" + col + "<TD>" + "button"+ "<TD>"
+                        + text
+                        + "<TD>" + s.getLocation());
+            }
+        }
+
         pw.println("</table><p align=\"center\"><a href=\"index.html\">Перейти на главную страницу</a>");
         pw.println("</BODY></HTML>");
         pw.close();
@@ -218,24 +246,25 @@ public class PrintTests {
         pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Type<TH>Location</TR>");
 
         int col = 0;
-        for(int i = 0; i < blocks.size(); i++){
-            for(WebElement s : blocks.get(i).maps){
-                col++;
-                pw.println("<TR><TD>" + col + "<TD>" + s.getTagName()
-                         + "<TD>" + s.getLocation());
-            }
-            for(WebElement s : blocks.get(i).flashMovies){
-                col++;
-                pw.println("<TR><TD>" + col + "<TD>" + "flash movie"
-                         + "<TD>" + s.getLocation());
-            }
+
+        for(WebElement s : blocks.get(0).maps){
+            col++;
+            pw.println("<TR><TD>" + col + "<TD>" + s.getTagName()
+                     + "<TD>" + s.getLocation());
         }
+
+        for(WebElement s : blocks.get(0).flashMovies){
+            col++;
+            pw.println("<TR><TD>" + col + "<TD>" + "flash movie"
+                     + "<TD>" + s.getLocation());
+        }
+
         pw.println("</table><p align=\"center\"><a href=\"index.html\">Перейти на главную страницу</a>");
         pw.println("</BODY></HTML>");
         pw.close();
     }
 
-    public static void printTests() throws FileNotFoundException {
+    public static void printTests(String baseUrl) throws FileNotFoundException {
         (new File(dirName)).mkdirs();
 
         pwMain = new PrintWriter(new File(dirName + "//" + "ind.html"));
@@ -279,13 +308,30 @@ public class PrintTests {
                 +"<META http-equiv=\"content-type\" CONTENT=\"text/html; charset=UTF-8\"/><TITLE>Инструкция</TITLE></HEAD>");
         pwMain.println("<BODY alink=*green><H2 ALIGN=\"center\">Тесты:</H2>");
         pwMain.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Имя файла<TH>Тип теста</TR>");
-
+        long t1 = System.nanoTime();
         printTestForLinks();
+        System.out.println("Time printTestForLinks(): " + ((System.nanoTime() - t1)/(1e+9)));
+
+        t1 = System.nanoTime();
         printTestForForms();
+        System.out.println("Time printTestForForms(): " + ((System.nanoTime() - t1)/(1e+9)));
+
+        t1 = System.nanoTime();
         printTestForButtons();
+        System.out.println("Time printTestForButtons(): " + ((System.nanoTime() - t1)/(1e+9)));
+
+        t1 = System.nanoTime();
         printTestForOtherTags();
+        System.out.println("Time printTestForOtherTags(): " + ((System.nanoTime() - t1)/(1e+9)));
 
         pwMain.println("</BODY></HTML>");
         pwMain.close();
+    }
+
+    private static void addWebElementData(String textToAdd, WebElement webElement){
+        Point pointElement = webElement.getLocation();
+        if(pointElement.getX() == 0 && pointElement.getY() == 0) return;
+        count++;
+        textForPrint += textToAdd +  pointElement;
     }
 }
