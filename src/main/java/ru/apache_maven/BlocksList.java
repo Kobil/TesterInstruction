@@ -23,24 +23,26 @@ public class BlocksList {
     private static int r, x, y;
 
     public static String getLabelForElement(WebElement s, int id){
-        if (labels.get(s.getAttribute("id"))!=null && !labels.get(s.getAttribute("id")).equals(""))
-            return labels.get(s.getAttribute("id"));
-        String ans;
+        String ans, text;
+        Point sLocation;
+        List<WebElement> webElements;
 
-        Point sLocation = s.getLocation();
+        if (labels.get(s.getAttribute("id"))!=null && !labels.get(s.getAttribute("id")).equals("")){
+            return labels.get(s.getAttribute("id"));
+        }
+
+        sLocation = s.getLocation();
         ans = "-";
         r = 10000;
         x = sLocation.getX();
         y = sLocation.getY();
 
-        List<WebElement> webElements = s.findElements(By.xpath(".//preceding-sibling::* " +
-                "| .//ancestor::label | //h1 | //h2 | //h3"
-        ));
+        webElements = s.findElements(By.xpath(".//preceding-sibling::* | .//ancestor::label | //h1 | //h2 | //h3"));
 
         ans = findTextInList(webElements, ans);
 
         if(ans.equals("-") || s.getTagName().equals("input")){
-            String text = s.getAttribute("value");
+            text = s.getAttribute("value");
             if (text!=null && !text.equals("") && !text.matches("^[0-9\\s]+$")){
                 return text;
             }
@@ -54,8 +56,9 @@ public class BlocksList {
     public static String findTextInList(List<WebElement> webElements, String ans){
         Point sLocation;
         int xx, yy, d;
+        String text;
         for(WebElement ss : webElements){
-            String text = ss.getText();
+            text = ss.getText();
             if(text!=null && !text.equals("")){
                 sLocation = ss.getLocation();
                 xx = sLocation.getX();

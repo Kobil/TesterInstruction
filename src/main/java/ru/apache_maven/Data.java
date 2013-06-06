@@ -15,7 +15,6 @@ import java.util.Random;
  * Email: ko6a93@bk.ru
  */
 public class Data {
-
     private static Random rnd = new Random();
     private static String[] names = new String[]{"Андрей", "Иван", "Михаил", "Александр"};
     private static String[] thirdNames = new String[]{"Иванович", "Игоревич", "Романович", "Сергеевич"};
@@ -81,8 +80,10 @@ public class Data {
     static String generateStringRandom(int len){
         String str = "";
         char[] ch = new char[2];
+        int val;
+
         for(int i = 0; i < len; i++){
-            int val = rnd.nextInt(10);
+            val = rnd.nextInt(10);
             ch[0] = (char)(rnd.nextInt(10) + 48);
             ch[1] = (char)(rnd.nextInt(26) + 97);
             str += ch[val % 2];
@@ -92,8 +93,9 @@ public class Data {
 
     static String generateStringForInputElement(WebElement s, String str){
         Random rnd = new Random();
+        String tagType;
         if(s.getTagName().equals("input")){
-            String tagType = s.getAttribute("type");
+            tagType = s.getAttribute("type");
             if(tagType.equals("text")){
                 if(str.matches(".*(?iu)(логин).*") || str.matches(".*(?iu)(пароль).*")
                         || str.matches(".*(?iu)(ящик).*")) return "Ввести: " + generateStringRandom(7);

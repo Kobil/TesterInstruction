@@ -27,7 +27,9 @@ public class PrintTests {
     private static PrintWriter pwMain;
     private static String textForPrint;
     private static int count;
+
     private static void printTestForLinks() throws FileNotFoundException {
+        int col = 0;
         String nameOfFile = "test_links.html";
         PrintWriter pw = new PrintWriter(new File(dirName + "//" + nameOfFile));
 
@@ -40,8 +42,6 @@ public class PrintTests {
         pw.println("<BODY>");
         pw.println("<H2 ALIGN=\"center\">Кликнуть по ссылке:</H2>");
         pw.println("<TABLE BORDER=\"1\" ALIGN=\"center\" CELLPADDING=\"4\"><TR><TH>№<TH>Text<TH>Location</TR>");
-
-        int col = 0;
 
         for(WebElement s : blocks.get(0).links){
             if(s.getText().length() > 0) {
@@ -58,17 +58,16 @@ public class PrintTests {
     private static void printTestForForms() throws FileNotFoundException {
         Random rnd = new Random();
         List<String> namesOfPrintedRadio = new ArrayList<String>();
-
         int countOfForms = 0;
+        String text;
+        String pass;
+        WebElement bSubmit;
+        List<WebElement> radios = new ArrayList<WebElement>();
         for(int i = 1; i < blocks.size(); i++){
             count = 1;
-            String pass = generateStringRandom(10);
-            String text;
+            pass = generateStringRandom(10);
             textForPrint = "";
-            WebElement bSubmit = null;
-
-            List<WebElement> radios = new ArrayList<WebElement>();
-
+            bSubmit = null;
 
             textForPrint += ("<HTML>"
                     +"<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\"/>"
