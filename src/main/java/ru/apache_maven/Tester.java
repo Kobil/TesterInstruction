@@ -41,22 +41,22 @@ public class Tester {
             baseUrl = sc.nextLine();
             sc.close();
         }catch (Exception e){
-            System.out.println("void Init(): " + e);
+            System.out.println("void Init(): " + e.getMessage());
         }
     }
 
     public void Start() throws FileNotFoundException {
         try{
             driver.get(baseUrl);
-            WebElement webElement = driver.findElement(By.xpath("/html/body"));
+            WebElement body = driver.findElement(By.xpath("/html/body"));
 
-            findAllLabels(webElement);
-            findAllElements(webElement);
+            findAllLabels(body);
+            findAllElements(body);
 
             printTests(baseUrl);
             driver.quit();
         }catch (Exception e){
-            System.out.println("void Start(): " + e);
+            System.out.println("void Start(): " + e.getMessage());
         }
     }
 }
