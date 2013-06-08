@@ -249,15 +249,17 @@ public class PrintTests {
 
         for(WebElement s : blocks.get(0).maps){
             col++;
-            pw.println("<TR><TD>" + col + "<TD>" + getLabelForElement(s, 0)
+            pw.println("<TR><TD>" + col
                     + "<TD>"+ s.getTagName()
+                    + "<TD>" + getLabelForElement(s, 0)
                     + "<TD>" + s.getLocation());
         }
 
         for(WebElement s : blocks.get(0).flashMovies){
             col++;
-            pw.println("<TR><TD>" + col + "<TD>" + getLabelForElement(s, 0)
+            pw.println("<TR><TD>" + col
                     + "<TD>" + "flash movie"
+                    + "<TD>" + getLabelForElement(s, 0)
                     + "<TD>" + s.getLocation());
         }
 
